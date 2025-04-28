@@ -7,8 +7,8 @@
     align-items: center;
     padding: 20px;
     width: 100%;
-  }
-  
+}
+
 .Store {
     background-image: url('../../public/img/bg-jae-min.9f44dc54.jpg');
     background-attachment: fixed;
@@ -44,11 +44,12 @@
     align-items: center;
     margin-bottom: 60px;
     text-align: center;
+    width: 100%;
 }
 
 .Store-start-bg-title {
-    max-width: 687px;
-    max-height: max-content;
+    max-width: 100%;
+    height: auto;
     margin-top: 130px;
     filter: drop-shadow(0 0 10px rgba(255, 204, 0, 0.5));
 }
@@ -165,6 +166,7 @@
     margin: 15px 0 10px;
     color: #ffcc00;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    text-align: center;
 }
 
 .Skin_text-1 {
@@ -178,7 +180,7 @@
 .Store-parent {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(6, 450px);
+    grid-auto-rows: minmax(450px, auto);
     gap: 15px;
     max-width: 1290px;
     margin: 0 auto;
@@ -199,6 +201,7 @@
     font-family: "LilitaOne";
     position: relative;
     transition: all 0.3s ease;
+    height: 100%;
 }
 
 .Store-parent>div:hover {
@@ -218,9 +221,7 @@
 }
 
 .special-offer {
-    background-image:
-        /* url('../../public/img/special-offer-bg.png'), */
-        linear-gradient(to bottom, #7c45d6, #422567);
+    background-image: linear-gradient(to bottom, #7c45d6, #422567);
     background-size: cover;
     background-position: center;
 }
@@ -342,6 +343,7 @@
     font-weight: 800;
     color: white;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    word-break: break-word;
 }
 
 .Store-second-p {
@@ -353,14 +355,17 @@
 
 .product-bottom {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     position: relative;
     z-index: 1;
     margin-top: auto;
+    gap: 10px;
 }
 
-.add-to-cart-btn {
+.add-to-cart-btn,
+.cr-buy-button {
     background: linear-gradient(to bottom, #ff4f4f, #d13030);
     border: none;
     border-radius: 10px;
@@ -371,16 +376,30 @@
     cursor: pointer;
     transition: all 0.2s;
     box-shadow: 0 3px 0 #000;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-.add-to-cart-btn:hover {
+.add-to-cart-btn:hover,
+.cr-buy-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 0 #000;
 }
 
-.add-to-cart-btn:active {
+.add-to-cart-btn:active,
+.cr-buy-button:active {
     transform: translateY(3px);
     box-shadow: 0 0 0 #000;
+}
+
+.cr-quantity-input {
+    width: 60px;
+    padding: 5px;
+    text-align: center;
+    border-radius: 5px;
+    border: 2px solid #422567;
+    font-family: "InterTight-Bold", sans-serif;
 }
 
 /* Загрузочный спиннер */
@@ -440,36 +459,239 @@
     }
 }
 
-/* Медиа-запросы для адаптивности */
-@media (max-width: 1200px) {
-    .Store-parent {
-        grid-template-columns: repeat(3, 1fr);
-    }
+/* Карточки корзины */
+.brawl-cart-container {
+    max-width: 1290px;
+    margin: 0 auto;
+    padding: 50px 20px;
+    color: white;
 }
 
-@media (max-width: 900px) {
-    .Store-parent {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.brawl-cart-container h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #ffcc00;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
-@media (max-width: 600px) {
-    .Store-parent {
-        grid-template-columns: 1fr;
-    }
-
-    .Store-div1 {
-        grid-area: auto;
-        flex-direction: column;
-    }
-
-    .icon-pluses {
-        flex-direction: column;
-        gap: 30px;
-    }
+.brawl-section-icon {
+    font-size: 36px;
 }
 
+.brawl-empty-cart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(66, 37, 103, 0.7);
+    border-radius: 20px;
+    padding: 40px 20px;
+    text-align: center;
+}
 
+.brawl-empty-cart-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+.brawl-empty-cart p {
+    font-family: "InterTight-Bold", sans-serif;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.brawl-sad-character {
+    max-width: 150px;
+    margin-top: 20px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+}
+
+.brawl-cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.brawl-cart-item {
+    background: linear-gradient(to right, #502969, #7c45d6);
+    border-radius: 15px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.brawl-cart-item img {
+    border-radius: 8px;
+    margin-right: 20px;
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.brawl-cart-item-details {
+    flex: 1;
+}
+
+.brawl-cart-item-details h3 {
+    font-size: 22px;
+    margin: 0 0 5px;
+    color: white;
+}
+
+.brawl-cart-item-details p {
+    font-size: 18px;
+    margin: 0 0 10px;
+    color: #ffcc00;
+}
+
+.brawl-quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.brawl-quantity-btn {
+    background-color: #422567;
+    border: 2px solid #ffcc00;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.brawl-quantity-btn:hover {
+    background-color: #ffcc00;
+    color: #422567;
+}
+
+.brawl-cart-quantity-input {
+    width: 50px;
+    text-align: center;
+    border: 2px solid #ffcc00;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    font-family: "InterTight-Bold", sans-serif;
+}
+
+.brawl-update-quantity-btn {
+    background-color: #ffcc00;
+    color: #422567;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-family: "InterTight-Bold", sans-serif;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: all 0.2s;
+}
+
+.brawl-update-quantity-btn:hover {
+    background-color: #ff9500;
+    transform: translateY(-2px);
+}
+
+.brawl-remove-btn {
+    background-color: #ff4f4f;
+    border: none;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 18px;
+    transition: all 0.2s;
+}
+
+.brawl-remove-btn:hover {
+    background-color: #d13030;
+    transform: rotate(90deg);
+}
+
+.brawl-cart-summary {
+    background: linear-gradient(to right, #7c45d6, #502969);
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.brawl-summary-details p {
+    margin: 5px 0;
+    font-family: "InterTight-Bold", sans-serif;
+    font-size: 18px;
+}
+
+.brawl-total {
+    font-size: 22px !important;
+}
+
+.brawl-price-highlight {
+    color: #ffcc00;
+    font-size: 24px;
+}
+
+.brawl-checkout-btn,
+.brawl-continue-shopping {
+    background: linear-gradient(to bottom, #ffcc00, #ff9500);
+    border: 3px solid #422567;
+    border-radius: 12px;
+    padding: 12px 24px;
+    color: #422567;
+    font-family: "LilitaOne", sans-serif;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 4px 0 #000;
+}
+
+.brawl-checkout-btn:hover,
+.brawl-continue-shopping:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 0 #000;
+}
+
+.brawl-checkout-btn:active,
+.brawl-continue-shopping:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 #000;
+}
+
+.brawl-btn-icon {
+    margin-right: 8px;
+    font-size: 20px;
+}
+
+.brawl-continue-shopping {
+    background: linear-gradient(to bottom, #7c45d6, #422567);
+    color: white;
+    margin: 0 auto;
+    display: flex;
+}
 
 .shop-sections {
     display: flex;
@@ -479,6 +701,7 @@
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    flex-wrap: wrap;
 }
 
 .shop-section-item {
@@ -509,6 +732,8 @@
     margin-bottom: 10px;
     filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
     transition: transform 0.3s;
+    width: 40px;
+    height: auto;
 }
 
 .shop-section-item:hover img {
@@ -526,34 +751,226 @@
     color: #ffcc00;
 }
 
-/* Медиа-запросы для адаптивности переключателя секций */
+/* Улучшенные медиа-запросы для адаптивности */
+@media (max-width: 1400px) {
+    .Store-parent {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 1200px) {
+    .brawl-cart-summary {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .brawl-summary-details {
+        text-align: center;
+        width: 100%;
+    }
+}
+
+@media (max-width: 992px) {
+    .Store-parent {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .Store-start-bg-title {
+        margin-top: 80px;
+        max-width: 80%;
+    }
+
+    .brawl-campaign-description {
+        font-size: 20px;
+    }
+
+    .icon-brawl-pass,
+    .icon-brawl-pass-plus,
+    .icon-pro-pass {
+        height: 100px;
+    }
+
+    .icon-pluses {
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+
+    .Skin_text {
+        font-size: 30px;
+    }
+
+    .Store-first-p {
+        font-size: 24px;
+    }
+
+    .Store-second-p {
+        font-size: 18px;
+    }
+
+    .brawl-cart-item {
+        flex-wrap: wrap;
+    }
+
+    .brawl-cart-item img {
+        margin-bottom: 10px;
+    }
+
+    .brawl-cart-item-details {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .brawl-quantity-control {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .brawl-remove-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+}
+
 @media (max-width: 768px) {
     .shop-sections {
-        flex-wrap: wrap;
         gap: 10px;
+        padding: 15px 10px;
     }
-    
+
     .shop-section-item {
         margin: 5px;
         padding: 10px 15px;
     }
+
+    .Store-start-bg {
+        min-height: 80vh;
+    }
+
+    .Store-bg {
+        padding: 50px 0;
+    }
+
+    .brawl-cart-container {
+        padding: 30px 15px;
+    }
+
+    .brawl-cart-container h2 {
+        font-size: 28px;
+    }
+
+    .product-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .Store-money {
+        margin-bottom: 10px;
+    }
+
+    .cr-quantity-input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .cr-buy-button {
+        width: 100%;
+        justify-content: center;
+    }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 576px) {
+    .Store-parent {
+        grid-template-columns: 1fr;
+    }
+
+    .Store-start-bg-title {
+        margin-top: 60px;
+    }
+
+    .brawl-campaign-description {
+        font-size: 18px;
+    }
+
+    .brawl-campaign-button {
+        font-size: 18px;
+        padding: 10px 20px;
+    }
+
+    .icon-pluses {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .pass-option {
+        margin-bottom: 20px;
+    }
+
+    .Skin_text {
+        font-size: 26px;
+    }
+
+    .Skin_text-1 {
+        font-size: 16px;
+    }
+
     .shop-sections {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .shop-section-item {
         width: 80%;
         margin: 5px 0;
         flex-direction: row;
-        justify-content: center;
+        justify-content: flex-start;
     }
-    
+
     .shop-section-item img {
         margin-bottom: 0;
         margin-right: 10px;
+    }
+
+    .brawl-checkout-btn,
+    .brawl-continue-shopping {
+        width: 100%;
+    }
+
+    .notification {
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 380px) {
+    .Store-start-bg-title {
+        margin-top: 40px;
+    }
+
+    .brawl-campaign-description {
+        font-size: 16px;
+    }
+
+    .brawl-campaign-button {
+        font-size: 16px;
+        padding: 8px 16px;
+    }
+
+    .Skin_text {
+        font-size: 22px;
+    }
+
+    .brawl-cart-container h2 {
+        font-size: 24px;
+    }
+
+    .brawl-empty-cart-icon {
+        font-size: 48px;
+    }
+
+    .brawl-empty-cart p {
+        font-size: 16px;
     }
 }

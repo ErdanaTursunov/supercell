@@ -11,7 +11,7 @@ function Profile() {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    email: ""
+    email: "",
   });
 
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ function Profile() {
   // Get user ID from local storage
   const getUserId = () => {
     try {
-      const authData = JSON.parse(localStorage.getItem('auth'));
+      const authData = JSON.parse(localStorage.getItem("auth"));
       return authData?.user?.id || 1; // Default to 1 if not found
     } catch (e) {
       return 1;
@@ -32,11 +32,14 @@ function Profile() {
       setLoading(true);
       try {
         const userId = getUserId();
-        const response = await axios.get(`http://localhost:4000/api/users/${userId}`, {
-          headers: {
-            'Authorization': `Bearer ${JSON.parse(localStorage.getItem('auth'))?.token}`
-          }
-        });
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/users/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))?.token}`,
+            },
+          },
+        );
 
         const userData = response.data;
         setUser(userData.user);
@@ -46,7 +49,7 @@ function Profile() {
         setFormData({
           firstName: userData.user.firstName,
           lastName: userData.user.lastName,
-          email: userData.user.email
+          email: userData.user.email,
         });
 
         setError(null);
@@ -66,7 +69,7 @@ function Profile() {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -76,27 +79,31 @@ function Profile() {
 
     try {
       const userId = getUserId();
-      const response = await axios.put(`http://localhost:4000/api/users/${userId}`, formData, {
-        headers: {
-          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('auth'))?.token}`
-        }
-      });
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/users/${userId}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))?.token}`,
+          },
+        },
+      );
 
       if (response.status === 200) {
         setUser({
           ...user,
-          ...formData
+          ...formData,
         });
         setIsEditing(false);
 
         // Update local storage with new user info
-        const authData = JSON.parse(localStorage.getItem('auth'));
+        const authData = JSON.parse(localStorage.getItem("auth"));
         if (authData && authData.user) {
           authData.user = {
             ...authData.user,
-            ...formData
+            ...formData,
           };
-          localStorage.setItem('auth', JSON.stringify(authData));
+          localStorage.setItem("auth", JSON.stringify(authData));
         }
       }
     } catch (err) {
@@ -109,14 +116,17 @@ function Profile() {
   const handleRemoveFromCart = async (itemId) => {
     try {
       const userId = getUserId();
-      await axios.delete(`http://localhost:4000/api/users/${userId}/cart/${itemId}`, {
-        headers: {
-          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('auth'))?.token}`
-        }
-      });
+      await axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/users/${userId}/cart/${itemId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))?.token}`,
+          },
+        },
+      );
 
       // Update local cart state
-      setCart(cart.filter(item => item.id !== itemId));
+      setCart(cart.filter((item) => item.id !== itemId));
     } catch (err) {
       setError("Failed to remove item from cart. Please try again.");
       console.error("Error removing item from cart:", err);
@@ -125,7 +135,10 @@ function Profile() {
 
   // Calculate total price
   const calculateTotal = () => {
-    return cart.reduce((total, item) => total + (item.GameItemDetail?.price || 0), 0);
+    return cart.reduce(
+      (total, item) => total + (item.GameItemDetail?.price || 0),
+      0,
+    );
   };
 
   // Handle logout
@@ -149,7 +162,9 @@ function Profile() {
       <div className="container">
         <div className="profile-header">
           <h1>My Profile</h1>
-          <button onClick={handleLogout} className="logout-btn">Logout</button>
+          <button onClick={handleLogout} className="logout-btn">
+            Logout
+          </button>
         </div>
 
         {error && <div className="error-message">{error}</div>}
@@ -159,17 +174,17 @@ function Profile() {
             <div className="section-header">
               <h2>Personal Information</h2>
               {!isEditing && (
-                <button
-                  onClick={() => setIsEditing(true)}
-                  className="edit-btn"
-                >
+                <button onClick={() => setIsEditing(true)} className="edit-btn">
                   Edit Profile
                 </button>
               )}
             </div>
 
             {isEditing ? (
-              <form onSubmit={handleUpdateProfile} className="edit-profile-form">
+              <form
+                onSubmit={handleUpdateProfile}
+                className="edit-profile-form"
+              >
                 <div className="form-group">
                   <label htmlFor="firstName">First Name</label>
                   <input
@@ -207,7 +222,9 @@ function Profile() {
                 </div>
 
                 <div className="form-actions">
-                  <button type="submit" className="save-btn">Save Changes</button>
+                  <button type="submit" className="save-btn">
+                    Save Changes
+                  </button>
                   <button
                     type="button"
                     onClick={() => {
@@ -215,7 +232,7 @@ function Profile() {
                       setFormData({
                         firstName: user.firstName,
                         lastName: user.lastName,
-                        email: user.email
+                        email: user.email,
                       });
                     }}
                     className="cancel-btn"
@@ -228,7 +245,9 @@ function Profile() {
               <div className="user-info">
                 <div className="info-item">
                   <span className="label">Name:</span>
-                  <span className="value">{user?.firstName} {user?.lastName}</span>
+                  <span className="value">
+                    {user?.firstName} {user?.lastName}
+                  </span>
                 </div>
                 <div className="info-item">
                   <span className="label">Email:</span>
@@ -248,7 +267,9 @@ function Profile() {
             {cart.length === 0 ? (
               <div className="empty-cart">
                 <p>Your cart is empty.</p>
-                <a href="/" className="shop-link">Browse Store</a>
+                <a href="/" className="shop-link">
+                  Browse Store
+                </a>
               </div>
             ) : (
               <>
@@ -257,7 +278,7 @@ function Profile() {
                     <div key={item.id} className="cart-item">
                       <div className="cart-item-image">
                         <img
-                          src={`http://localhost:4000${item.imageUrl}`}
+                          src={`${process.env.REACT_APP_API_URL}${item.imageUrl}`}
                           alt={item.name}
                         />
                       </div>
@@ -267,9 +288,13 @@ function Profile() {
                         <div className="item-meta">
                           {item.GameItemDetail && (
                             <>
-                              <span className="item-type">{item.GameItemDetail.type}</span>
+                              <span className="item-type">
+                                {item.GameItemDetail.type}
+                              </span>
                               {item.GameItemDetail.rarity && (
-                                <span className={`item-rarity ${item.GameItemDetail.rarity.toLowerCase()}`}>
+                                <span
+                                  className={`item-rarity ${item.GameItemDetail.rarity.toLowerCase()}`}
+                                >
                                   {item.GameItemDetail.rarity}
                                 </span>
                               )}
@@ -326,13 +351,13 @@ function Profile() {
           background-color: #f8f9fa;
           min-height: 100vh;
         }
-        
+
         .container {
           max-width: 1200px;
           margin: 0 auto;
           padding: 0 1.5rem;
         }
-        
+
         .profile-header {
           display: flex;
           justify-content: space-between;
@@ -341,13 +366,13 @@ function Profile() {
           padding-bottom: 1rem;
           border-bottom: 1px solid #e9ecef;
         }
-        
+
         .profile-header h1 {
           margin: 0;
           color: #343a40;
           font-size: 2rem;
         }
-        
+
         .logout-btn {
           background-color: #f8f9fa;
           color: #dc3545;
@@ -357,45 +382,45 @@ function Profile() {
           cursor: pointer;
           transition: all 0.2s;
         }
-        
+
         .logout-btn:hover {
           background-color: #dc3545;
           color: white;
         }
-        
+
         .profile-content {
           display: grid;
           grid-template-columns: 1fr 2fr;
           gap: 2rem;
         }
-        
+
         @media (max-width: 768px) {
           .profile-content {
             grid-template-columns: 1fr;
           }
         }
-        
+
         .profile-section {
           background-color: white;
           border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
           padding: 1.5rem;
           margin-bottom: 2rem;
         }
-        
+
         .section-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
           margin-bottom: 1.5rem;
         }
-        
+
         .section-header h2 {
           margin: 0;
           color: #343a40;
           font-size: 1.5rem;
         }
-        
+
         .edit-btn {
           background-color: #007bff;
           color: white;
@@ -405,38 +430,38 @@ function Profile() {
           cursor: pointer;
           transition: background-color 0.2s;
         }
-        
+
         .edit-btn:hover {
           background-color: #0069d9;
         }
-        
+
         .user-info .info-item {
           margin-bottom: 1rem;
           font-size: 1.1rem;
         }
-        
+
         .user-info .label {
           font-weight: 600;
           color: #6c757d;
           width: 100px;
           display: inline-block;
         }
-        
+
         .user-info .value {
           color: #343a40;
         }
-        
+
         .edit-profile-form .form-group {
           margin-bottom: 1.5rem;
         }
-        
+
         .edit-profile-form label {
           display: block;
           margin-bottom: 0.5rem;
           font-weight: 500;
           color: #495057;
         }
-        
+
         .edit-profile-form input {
           width: 100%;
           padding: 0.75rem;
@@ -444,13 +469,13 @@ function Profile() {
           border-radius: 4px;
           font-size: 1rem;
         }
-        
+
         .form-actions {
           display: flex;
           gap: 1rem;
           margin-top: 1rem;
         }
-        
+
         .save-btn {
           background-color: #28a745;
           color: white;
@@ -460,11 +485,11 @@ function Profile() {
           cursor: pointer;
           transition: background-color 0.2s;
         }
-        
+
         .save-btn:hover {
           background-color: #218838;
         }
-        
+
         .cancel-btn {
           background-color: #6c757d;
           color: white;
@@ -474,28 +499,28 @@ function Profile() {
           cursor: pointer;
           transition: background-color 0.2s;
         }
-        
+
         .cancel-btn:hover {
           background-color: #5a6268;
         }
-        
+
         .cart-items h2 {
           margin-bottom: 1.5rem;
           font-size: 1.5rem;
           color: #343a40;
         }
-        
+
         .empty-cart {
           text-align: center;
           padding: 2rem 0;
         }
-        
+
         .empty-cart p {
           font-size: 1.1rem;
           color: #6c757d;
           margin-bottom: 1rem;
         }
-        
+
         .shop-link {
           display: inline-block;
           background-color: #007bff;
@@ -505,48 +530,48 @@ function Profile() {
           border-radius: 4px;
           transition: background-color 0.2s;
         }
-        
+
         .shop-link:hover {
           background-color: #0069d9;
         }
-        
+
         .cart-list {
           display: flex;
           flex-direction: column;
           gap: 1.5rem;
           margin-bottom: 2rem;
         }
-        
+
         .cart-item {
           display: flex;
           gap: 1.5rem;
           padding-bottom: 1.5rem;
           border-bottom: 1px solid #e9ecef;
         }
-        
+
         .cart-item-image {
           width: 120px;
           height: 120px;
           flex-shrink: 0;
         }
-        
+
         .cart-item-image img {
           width: 100%;
           height: 100%;
           object-fit: cover;
           border-radius: 6px;
         }
-        
+
         .cart-item-details {
           flex: 1;
         }
-        
+
         .cart-item-details h3 {
           margin: 0 0 0.5rem;
           font-size: 1.2rem;
           color: #343a40;
         }
-        
+
         .game-badge {
           display: inline-block;
           background-color: #e9ecef;
@@ -556,56 +581,56 @@ function Profile() {
           border-radius: 4px;
           margin-bottom: 0.75rem;
         }
-        
+
         .item-meta {
           display: flex;
           gap: 1rem;
           margin-bottom: 0.75rem;
         }
-        
+
         .item-type {
           font-weight: 500;
           color: #495057;
         }
-        
+
         .item-rarity {
           padding: 0.2rem 0.5rem;
           border-radius: 4px;
           font-size: 0.85rem;
           font-weight: 500;
         }
-        
+
         .item-rarity.legendary {
           background-color: #ffd700;
           color: #212529;
         }
-        
+
         .item-rarity.epic {
           background-color: #9c27b0;
           color: white;
         }
-        
+
         .item-rarity.premium {
           background-color: #1976d2;
           color: white;
         }
-        
+
         .item-rarity.ultra {
           background-color: #ff4081;
           color: white;
         }
-        
+
         .item-gems {
           color: #4caf50;
           font-weight: 500;
         }
-        
+
         .item-description {
           color: #6c757d;
           font-size: 0.95rem;
           margin: 0;
         }
-        
+
         .cart-item-actions {
           display: flex;
           flex-direction: column;
@@ -613,13 +638,13 @@ function Profile() {
           align-items: flex-end;
           min-width: 120px;
         }
-        
+
         .item-price {
           font-size: 1.25rem;
           font-weight: 600;
           color: #343a40;
         }
-        
+
         .remove-btn {
           background-color: transparent;
           color: #dc3545;
@@ -629,18 +654,18 @@ function Profile() {
           font-size: 0.9rem;
           transition: color 0.2s;
         }
-        
+
         .remove-btn:hover {
           color: #bd2130;
           text-decoration: underline;
         }
-        
+
         .cart-summary {
           background-color: #f8f9fa;
           padding: 1.5rem;
           border-radius: 6px;
         }
-        
+
         .summary-row {
           display: flex;
           justify-content: space-between;
@@ -648,7 +673,7 @@ function Profile() {
           font-size: 1.1rem;
           color: #495057;
         }
-        
+
         .summary-row.total {
           margin-top: 1rem;
           padding-top: 1rem;
@@ -657,7 +682,7 @@ function Profile() {
           font-size: 1.25rem;
           color: #343a40;
         }
-        
+
         .checkout-btn {
           display: block;
           width: 100%;
@@ -672,11 +697,11 @@ function Profile() {
           cursor: pointer;
           transition: background-color 0.2s;
         }
-        
+
         .checkout-btn:hover {
           background-color: #218838;
         }
-        
+
         .error-message {
           background-color: #f8d7da;
           color: #721c24;
@@ -685,7 +710,7 @@ function Profile() {
           border-radius: 4px;
           border: 1px solid #f5c6cb;
         }
-        
+
         .loading {
           display: flex;
           justify-content: center;

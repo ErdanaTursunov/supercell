@@ -15,7 +15,7 @@ const ClashOfClans = () => {
     gems: 0,
     type: "skin", // Default type (only skin or pass)
     rarity: "Premium", // Default rarity
-    game: "Clash Of Clans" // Always "Clash Of Clans"
+    game: "Clash Of Clans", // Always "Clash Of Clans"
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -29,8 +29,12 @@ const ClashOfClans = () => {
   const fetchGameItems = async () => {
     setLoading(true);
     try {
-      const response = await axios('http://localhost:4000/api/game/items');
-      setGameItems(response.data.filter(item => item.game === "Clash Of Clans"));
+      const response = await axios(
+        `${process.env.REACT_APP_API_URL}/api/game/items`,
+      );
+      setGameItems(
+        response.data.filter((item) => item.game === "Clash Of Clans"),
+      );
       setError(null);
     } catch (err) {
       setError(err.message);
@@ -44,7 +48,7 @@ const ClashOfClans = () => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
@@ -59,31 +63,35 @@ const ClashOfClans = () => {
 
     // Create FormData object for multipart/form-data
     const formDataToSend = new FormData();
-    formDataToSend.append('name', formData.name);
-    formDataToSend.append('description', formData.description);
-    formDataToSend.append('game', 'Clash Of Clans'); // Always set to Clash Of Clans
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("game", "Clash Of Clans"); // Always set to Clash Of Clans
 
     // Create and append details as JSON string with rarity included
     const details = JSON.stringify({
       price: parseInt(formData.price),
       type: formData.type,
       rarity: formData.rarity,
-      gems: parseInt(formData.gems)
+      gems: parseInt(formData.gems),
     });
-    formDataToSend.append('details', details);
+    formDataToSend.append("details", details);
 
     // Append image file if selected
     if (selectedFile) {
-      formDataToSend.append('image', selectedFile);
+      formDataToSend.append("image", selectedFile);
     }
 
     try {
-      const response = await axios.post('http://localhost:4000/api/game/items', formDataToSend, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('auth'))?.token}`
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/game/items`,
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))?.token}`,
+          },
         },
-      });
+      );
 
       if (response.status === 201) {
         fetchGameItems(); // Refresh the items list
@@ -100,9 +108,9 @@ const ClashOfClans = () => {
 
     // Create FormData object for multipart/form-data
     const formDataToSend = new FormData();
-    formDataToSend.append('name', formData.name);
-    formDataToSend.append('description', formData.description);
-    formDataToSend.append('game', 'Clash Of Clans'); // Always set to Clash Of Clans
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("game", "Clash Of Clans"); // Always set to Clash Of Clans
 
     // Create and append details as JSON string with rarity included
     const details = JSON.stringify({
@@ -111,20 +119,24 @@ const ClashOfClans = () => {
       rarity: formData.rarity,
       gems: parseInt(formData.gems),
     });
-    formDataToSend.append('details', details);
+    formDataToSend.append("details", details);
 
     // Append image file if selected
     if (selectedFile) {
-      formDataToSend.append('image', selectedFile);
+      formDataToSend.append("image", selectedFile);
     }
 
     try {
-      const response = await axios.put(`http://localhost:4000/api/game/items/${formData.id}`, formDataToSend, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('auth'))?.token}`
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/game/items/${formData.id}`,
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))?.token}`,
+          },
         },
-      });
+      );
 
       if (response.status === 200) {
         fetchGameItems(); // Refresh the items list
@@ -138,12 +150,14 @@ const ClashOfClans = () => {
 
   // Delete game item
   const handleDeleteGameItem = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this game item?')) {
+    if (!window.confirm("Are you sure you want to delete this game item?")) {
       return;
     }
 
     try {
-      const response = await axios.delete(`http://localhost:4000/api/game/items/${id}`);
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/game/items/${id}`,
+      );
 
       if (response.status === 200) {
         setGameItems(gameItems.filter((item) => item.id !== id));
@@ -178,7 +192,7 @@ const ClashOfClans = () => {
       type: type,
       rarity: rarity,
       game: "Clash Of Clans",
-      imageUrl: item.imageUrl
+      imageUrl: item.imageUrl,
     });
     setIsEditing(true);
     setSelectedFile(null);
@@ -194,7 +208,7 @@ const ClashOfClans = () => {
       gems: 0,
       type: "skin",
       rarity: "Premium",
-      game: "Clash Of Clans"
+      game: "Clash Of Clans",
     });
     setSelectedFile(null);
   };
@@ -208,7 +222,7 @@ const ClashOfClans = () => {
   // Get auth data from localStorage
   const getUsername = () => {
     try {
-      const authData = JSON.parse(localStorage.getItem('auth'));
+      const authData = JSON.parse(localStorage.getItem("auth"));
       return authData?.user?.username || "Admin";
     } catch (e) {
       return "Admin";
@@ -227,10 +241,7 @@ const ClashOfClans = () => {
         <h1>Clash Of Clans Item Management</h1>
         <div className="admin-user-info">
           <span>Welcome, {getUsername()}</span>
-          <button
-            className="logout-btn"
-            onClick={handleLogout}
-          >
+          <button className="logout-btn" onClick={handleLogout}>
             Logout
           </button>
         </div>
@@ -250,7 +261,9 @@ const ClashOfClans = () => {
                 <a href="/admin/BrawlStars">Brawl Stars Management</a>
               </li>
               <li>
-                <a href="/admin/ClashOfClans" className="active">Clash Of Clans Management</a>
+                <a href="/admin/ClashOfClans" className="active">
+                  Clash Of Clans Management
+                </a>
               </li>
               <li>
                 <a href="/admin/ClashRoyale">Clash Royale Management</a>
@@ -263,8 +276,10 @@ const ClashOfClans = () => {
           {error && <div className="error-message">{error}</div>}
 
           <div className="game-item-form-container">
-            <h2>{isEditing ? 'Edit Game Item' : 'Add New Game Item'}</h2>
-            <form onSubmit={isEditing ? handleUpdateGameItem : handleCreateGameItem}>
+            <h2>{isEditing ? "Edit Game Item" : "Add New Game Item"}</h2>
+            <form
+              onSubmit={isEditing ? handleUpdateGameItem : handleCreateGameItem}
+            >
               <div className="form-group">
                 <label htmlFor="name">Name</label>
                 <input
@@ -314,7 +329,6 @@ const ClashOfClans = () => {
                   min="0"
                 />
               </div>
-              
 
               <div className="form-group">
                 <label htmlFor="type">Type</label>
@@ -361,9 +375,9 @@ const ClashOfClans = () => {
                   <p>Current Image:</p>
                   <div className="image-preview">
                     <img
-                      src={`http://localhost:4000${formData.imageUrl}`}
+                      src={`${process.env.REACT_APP_API_URL}${formData.imageUrl}`}
                       alt="Game item"
-                      style={{ width: '100px' }}
+                      style={{ width: "100px" }}
                     />
                   </div>
                 </div>
@@ -371,10 +385,14 @@ const ClashOfClans = () => {
 
               <div className="form-actions">
                 <button type="submit" className="btn-primary">
-                  {isEditing ? 'Update' : 'Create'}
+                  {isEditing ? "Update" : "Create"}
                 </button>
                 {isEditing && (
-                  <button type="button" className="btn-secondary" onClick={handleCancel}>
+                  <button
+                    type="button"
+                    className="btn-secondary"
+                    onClick={handleCancel}
+                  >
                     Cancel
                   </button>
                 )}
@@ -404,21 +422,19 @@ const ClashOfClans = () => {
                   {gameItems.map((item) => (
                     <tr key={item.id}>
                       <td>{item.name}</td>
-                      <td>
-                        {item.GameItemDetail?.type || 'N/A'}
-                      </td>
-                      <td>
-                        {item.GameItemDetail?.rarity || 'N/A'}
-                      </td>
-                      <td>
-                        {item.GameItemDetail?.price || 'N/A'}
-                      </td>
+                      <td>{item.GameItemDetail?.type || "N/A"}</td>
+                      <td>{item.GameItemDetail?.rarity || "N/A"}</td>
+                      <td>{item.GameItemDetail?.price || "N/A"}</td>
                       <td>
                         {item.imageUrl ? (
                           <img
-                            src={`http://localhost:4000${item.imageUrl}`}
+                            src={`${process.env.REACT_APP_API_URL}${item.imageUrl}`}
                             alt={item.name}
-                            style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              objectFit: "cover",
+                            }}
                           />
                         ) : (
                           <span>No image</span>

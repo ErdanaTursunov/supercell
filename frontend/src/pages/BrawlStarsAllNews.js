@@ -1,17 +1,19 @@
-import { useEffect, useState } from 'react';
-import '../styles/BrawlStarsAllNews.css';
+import { useEffect, useState } from "react";
+import "../styles/BrawlStarsAllNews.css";
 import axios from "axios";
-import { Link } from 'react-router-dom';  // Импортируем Link для создания ссылок
+import { Link } from "react-router-dom"; // Импортируем Link для создания ссылок
 
 export default function BrawlStarsAllNews() {
-  const [activeCategory, setActiveCategory] = useState('all');
+  const [activeCategory, setActiveCategory] = useState("all");
   const [news, setNews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const newsPerPage = 6;  // например, 6 новостей на страницу
+  const newsPerPage = 6; // например, 6 новостей на страницу
 
   useEffect(() => {
     const loadNews = async () => {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/news`);
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/news`,
+      );
       if (response.data) {
         setNews([...response.data]);
       }
@@ -21,15 +23,16 @@ export default function BrawlStarsAllNews() {
   }, []);
 
   const categories = [
-    { id: 'all', name: 'Все новости' },
-    { id: 'Brawl Stars', name: 'Brawl Stars' },
-    { id: 'Clash Of Clans', name: 'Clash Of Clans' },
-    { id: 'Clash Royale', name: 'Clash Royale' },
+    { id: "all", name: "Все новости" },
+    { id: "Brawl Stars", name: "Brawl Stars" },
+    { id: "Clash Of Clans", name: "Clash Of Clans" },
+    { id: "Clash Royale", name: "Clash Royale" },
   ];
 
-  let filteredNews = activeCategory === 'all'
-    ? news
-    : news.filter(item => item.game === activeCategory);
+  let filteredNews =
+    activeCategory === "all"
+      ? news
+      : news.filter((item) => item.game === activeCategory);
 
   const indexOfLastNews = currentPage * newsPerPage;
   const indexOfFirstNews = indexOfLastNews - newsPerPage;
@@ -39,14 +42,16 @@ export default function BrawlStarsAllNews() {
     <div className="bs-all-news-container">
       <div className="bs-all-news-header">
         <h1 className="bs-all-news-title">НОВОСТИ</h1>
-        <p className="bs-all-news-subtitle">Будьте в курсе всех обновлений и событий игр</p>
+        <p className="bs-all-news-subtitle">
+          Будьте в курсе всех обновлений и событий игр
+        </p>
       </div>
 
       <div className="bs-categories">
-        {categories.map(category => (
+        {categories.map((category) => (
           <button
             key={category.id}
-            className={`bs-category-button ${activeCategory === category.id ? 'active' : ''}`}
+            className={`bs-category-button ${activeCategory === category.id ? "active" : ""}`}
             onClick={() => setActiveCategory(category.id)}
           >
             {category.name}
@@ -55,21 +60,25 @@ export default function BrawlStarsAllNews() {
       </div>
 
       <div className="bs-news-grid">
-        {currentNews.map(item => {
+        {currentNews.map((item) => {
           // Определяем ссылку в зависимости от категории
-          let linkPath = '';
-          if (item.game === 'Brawl Stars') {
-            linkPath = '/brawl-stars';
-          } else if (item.game === 'Clash Of Clans') {
-            linkPath = '/clash-of-clans';
-          } else if (item.game === 'Clash Royale') {
-            linkPath = '/clash-royale';
+          let linkPath = "";
+          if (item.game === "Brawl Stars") {
+            linkPath = "/brawl-stars";
+          } else if (item.game === "Clash Of Clans") {
+            linkPath = "/clash-of-clans";
+          } else if (item.game === "Clash Royale") {
+            linkPath = "/clash-royale";
           }
 
           return (
             <div key={item.id} className={`bs-news-card ${item.colorClass}`}>
               <div className="bs-news-image-container">
-                <img src={`${process.env.REACT_APP_API_URL}${item.image}`} alt={item.title} className="bs-news-image" />
+                <img
+                  src={`${process.env.REACT_APP_API_URL}${item.image}`}
+                  alt={item.title}
+                  className="bs-news-image"
+                />
                 <div className="bs-news-date">{item.date}</div>
               </div>
 
@@ -104,26 +113,34 @@ export default function BrawlStarsAllNews() {
       <div className="bs-pagination">
         <button
           className="bs-page-button prev"
-          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
         >
           ←
         </button>
 
-        {[...Array(Math.ceil(filteredNews.length / newsPerPage)).keys()].map(number => (
-          <button
-            key={number + 1}
-            className={`bs-page-button ${currentPage === number + 1 ? 'active' : ''}`}
-            onClick={() => setCurrentPage(number + 1)}
-          >
-            {number + 1}
-          </button>
-        ))}
+        {[...Array(Math.ceil(filteredNews.length / newsPerPage)).keys()].map(
+          (number) => (
+            <button
+              key={number + 1}
+              className={`bs-page-button ${currentPage === number + 1 ? "active" : ""}`}
+              onClick={() => setCurrentPage(number + 1)}
+            >
+              {number + 1}
+            </button>
+          ),
+        )}
 
         <button
           className="bs-page-button next"
-          onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(filteredNews.length / newsPerPage)))}
-          disabled={currentPage === Math.ceil(filteredNews.length / newsPerPage)}
+          onClick={() =>
+            setCurrentPage((prev) =>
+              Math.min(prev + 1, Math.ceil(filteredNews.length / newsPerPage)),
+            )
+          }
+          disabled={
+            currentPage === Math.ceil(filteredNews.length / newsPerPage)
+          }
         >
           →
         </button>

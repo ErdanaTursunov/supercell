@@ -11,9 +11,9 @@ const AdminNewsPage = () => {
     id: null,
     title: "",
     subtitle: "",
-    date: new Date().toISOString().split('T')[0], // Add current date as default
-    game: "", // Default game
-    images: []
+    date: new Date().toISOString().split("T")[0], // Add current date as default
+    game: "Brawl Stars", // Default game
+    images: [],
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -28,7 +28,7 @@ const AdminNewsPage = () => {
   const fetchNews = async () => {
     setLoading(true);
     try {
-      const response = await axios('http://localhost:4000/api/news');
+      const response = await axios(`${process.env.REACT_APP_API_URL}/api/news`);
       setNews(response.data);
       setError(null);
     } catch (err) {
@@ -43,7 +43,7 @@ const AdminNewsPage = () => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
@@ -58,25 +58,29 @@ const AdminNewsPage = () => {
 
     // Create FormData object for multipart/form-data
     const formDataToSend = new FormData();
-    formDataToSend.append('title', formData.title);
-    formDataToSend.append('subtitle', formData.subtitle);
-    formDataToSend.append('date', formData.date);
-    formDataToSend.append('game', formData.game);
+    formDataToSend.append("title", formData.title);
+    formDataToSend.append("subtitle", formData.subtitle);
+    formDataToSend.append("date", formData.date);
+    formDataToSend.append("game", formData.game);
 
     // Append each selected file
     if (selectedFiles.length > 0) {
-      selectedFiles.forEach(file => {
-        formDataToSend.append('images', file);
+      selectedFiles.forEach((file) => {
+        formDataToSend.append("images", file);
       });
     }
 
     try {
-      const response = await axios.post('http://localhost:4000/api/news', formDataToSend, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('auth'))?.token}`
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/news`,
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))?.token}`,
+          },
         },
-      });
+      );
 
       if (response.status === 201) {
         fetchNews(); // Refresh the news list
@@ -93,32 +97,36 @@ const AdminNewsPage = () => {
 
     // Create FormData object for multipart/form-data
     const formDataToSend = new FormData();
-    formDataToSend.append('title', formData.title);
-    formDataToSend.append('subtitle', formData.subtitle);
-    formDataToSend.append('date', formData.date);
-    formDataToSend.append('game', formData.game);
+    formDataToSend.append("title", formData.title);
+    formDataToSend.append("subtitle", formData.subtitle);
+    formDataToSend.append("date", formData.date);
+    formDataToSend.append("game", formData.game);
 
     // Append each selected file for new images
     if (selectedFiles.length > 0) {
-      selectedFiles.forEach(file => {
-        formDataToSend.append('images', file);
+      selectedFiles.forEach((file) => {
+        formDataToSend.append("images", file);
       });
     }
 
     // Handle image deletion
     if (imagesToDelete.length > 0) {
-      imagesToDelete.forEach(img => {
-        formDataToSend.append('imagesToDelete', img);
+      imagesToDelete.forEach((img) => {
+        formDataToSend.append("imagesToDelete", img);
       });
     }
 
     try {
-      const response = await axios.put(`http://localhost:4000/api/news/${formData.id}`, formDataToSend, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('auth'))?.token}`
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/news/${formData.id}`,
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))?.token}`,
+          },
         },
-      });
+      );
 
       if (response.status === 200) {
         fetchNews(); // Refresh the news list
@@ -132,12 +140,14 @@ const AdminNewsPage = () => {
 
   // Delete news
   const handleDeleteNews = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this news item?')) {
+    if (!window.confirm("Are you sure you want to delete this news item?")) {
       return;
     }
 
     try {
-      const response = await axios.delete(`http://localhost:4000/api/news/${id}`);
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/news/${id}`,
+      );
 
       if (response.status === 200) {
         setNews(news.filter((item) => item.id !== id));
@@ -150,7 +160,7 @@ const AdminNewsPage = () => {
   // Handle selecting an image to delete (for editing existing news)
   const handleToggleImageDelete = (imagePath) => {
     if (imagesToDelete.includes(imagePath)) {
-      setImagesToDelete(imagesToDelete.filter(img => img !== imagePath));
+      setImagesToDelete(imagesToDelete.filter((img) => img !== imagePath));
     } else {
       setImagesToDelete([...imagesToDelete, imagePath]);
     }
@@ -164,7 +174,7 @@ const AdminNewsPage = () => {
       subtitle: newsItem.subtitle,
       date: newsItem.date,
       game: newsItem.game,
-      images: newsItem.image || [] // Use the existing image array from backend
+      images: newsItem.image || [], // Use the existing image array from backend
     });
     setIsEditing(true);
     setSelectedFiles([]);
@@ -177,9 +187,9 @@ const AdminNewsPage = () => {
       id: null,
       title: "",
       subtitle: "",
-      date: new Date().toISOString().split('T')[0],
+      date: new Date().toISOString().split("T")[0],
       game: "",
-      images: []
+      images: [],
     });
     setSelectedFiles([]);
     setImagesToDelete([]);
@@ -194,7 +204,7 @@ const AdminNewsPage = () => {
   // Get auth data from localStorage
   const getUsername = () => {
     try {
-      const authData = JSON.parse(localStorage.getItem('auth'));
+      const authData = JSON.parse(localStorage.getItem("auth"));
       return authData?.user?.username || "Admin";
     } catch (e) {
       return "Admin";
@@ -213,10 +223,7 @@ const AdminNewsPage = () => {
         <h1>News Management</h1>
         <div className="admin-user-info">
           <span>Welcome, {getUsername()}</span>
-          <button
-            className="logout-btn"
-            onClick={handleLogout}
-          >
+          <button className="logout-btn" onClick={handleLogout}>
             Logout
           </button>
         </div>
@@ -230,7 +237,9 @@ const AdminNewsPage = () => {
                 <a href="/admin">Dashboard</a>
               </li>
               <li>
-                <a href="/admin/news" className="active">News Management</a>
+                <a href="/admin/news" className="active">
+                  News Management
+                </a>
               </li>
               <li>
                 <a href="/admin/BrawlStars">Brawls Stars Management</a>
@@ -249,7 +258,7 @@ const AdminNewsPage = () => {
           {error && <div className="error-message">{error}</div>}
 
           <div className="news-form-container">
-            <h2>{isEditing ? 'Edit News' : 'Add New News'}</h2>
+            <h2>{isEditing ? "Edit News" : "Add New News"}</h2>
             <form onSubmit={isEditing ? handleUpdateNews : handleCreateNews}>
               <div className="form-group">
                 <label htmlFor="title">Title</label>
@@ -321,16 +330,20 @@ const AdminNewsPage = () => {
                     {formData.images.map((img, index) => (
                       <div key={index} className="image-preview">
                         <img
-                          src={`http://localhost:4000${img}`}
+                          src={`${process.env.REACT_APP_API_URL}${img}`}
                           alt={`News image ${index + 1}`}
                           style={{
-                            width: '100px',
-                            opacity: imagesToDelete.includes(img) ? 0.3 : 1
+                            width: "100px",
+                            opacity: imagesToDelete.includes(img) ? 0.3 : 1,
                           }}
                         />
                         <button
                           type="button"
-                          className={imagesToDelete.includes(img) ? "btn-restore" : "btn-remove"}
+                          className={
+                            imagesToDelete.includes(img)
+                              ? "btn-restore"
+                              : "btn-remove"
+                          }
                           onClick={() => handleToggleImageDelete(img)}
                         >
                           {imagesToDelete.includes(img) ? "Restore" : "Remove"}
@@ -343,10 +356,14 @@ const AdminNewsPage = () => {
 
               <div className="form-actions">
                 <button type="submit" className="btn-primary">
-                  {isEditing ? 'Update' : 'Create'}
+                  {isEditing ? "Update" : "Create"}
                 </button>
                 {isEditing && (
-                  <button type="button" className="btn-secondary" onClick={handleCancel}>
+                  <button
+                    type="button"
+                    className="btn-secondary"
+                    onClick={handleCancel}
+                  >
                     Cancel
                   </button>
                 )}

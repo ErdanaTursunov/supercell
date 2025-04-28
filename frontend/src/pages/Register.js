@@ -1,19 +1,19 @@
-import React, { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { AuthContext } from '../context/AuthContext';
-import '../styles/Register.css';
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
+import "../styles/Register.css";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    Name: '',
-    LastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    role: 'user'
+    Name: "",
+    LastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "user",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
@@ -21,17 +21,17 @@ const Register = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Пароли не совпадают');
+      setError("Пароли не совпадают");
       setLoading(false);
       return;
     }
@@ -42,21 +42,27 @@ const Register = () => {
         LastName: formData.LastName,
         email: formData.email,
         password: formData.password,
-        role: formData.role
+        role: formData.role,
       };
 
-      const response = await axios.post('http://localhost:4000/api/auth/register', registrationData);
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/auth/register`,
+        registrationData,
+      );
 
       if (response.data && response.data.token && response.data.user) {
         // Важно, чтобы данные user и token были в ответе
         login({ token: response.data.token, user: response.data.user });
-        navigate('/');
+        navigate("/");
       } else {
-        setError('Не удалось получить правильный ответ от сервера');
+        setError("Не удалось получить правильный ответ от сервера");
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Ошибка регистрации. Пожалуйста, попробуйте снова.');
-      console.error('Ошибка регистрации:', err);
+      setError(
+        err.response?.data?.message ||
+          "Ошибка регистрации. Пожалуйста, попробуйте снова.",
+      );
+      console.error("Ошибка регистрации:", err);
     } finally {
       setLoading(false);
     }
@@ -147,12 +153,17 @@ const Register = () => {
           </div>
 
           <button type="submit" className="register-button" disabled={loading}>
-            {loading ? 'Регистрация...' : 'Зарегистрироваться'}
+            {loading ? "Регистрация..." : "Зарегистрироваться"}
           </button>
         </form>
 
         <div className="register-footer">
-          <p>Уже есть аккаунт? <Link to="/login" className="login-link">Войти</Link></p>
+          <p>
+            Уже есть аккаунт?{" "}
+            <Link to="/login" className="login-link">
+              Войти
+            </Link>
+          </p>
         </div>
       </div>
     </div>

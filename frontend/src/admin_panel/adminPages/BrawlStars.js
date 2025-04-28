@@ -13,7 +13,7 @@ const BrawlStars = () => {
     description: "",
     price: 0,
     type: "skin", // Default type
-    game: "Brawl Stars" // Always "Brawl Stars"
+    game: "Brawl Stars", // Always "Brawl Stars"
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -27,8 +27,10 @@ const BrawlStars = () => {
   const fetchGameItems = async () => {
     setLoading(true);
     try {
-      const response = await axios('http://localhost:4000/api/game/items');
-      setGameItems(response.data.filter(item => item.game === "Brawl Stars"));
+      const response = await axios(
+        `${process.env.REACT_APP_API_URL}/api/game/items`,
+      );
+      setGameItems(response.data.filter((item) => item.game === "Brawl Stars"));
       setError(null);
     } catch (err) {
       setError(err.message);
@@ -42,7 +44,7 @@ const BrawlStars = () => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
@@ -57,29 +59,33 @@ const BrawlStars = () => {
 
     // Create FormData object for multipart/form-data
     const formDataToSend = new FormData();
-    formDataToSend.append('name', formData.name);
-    formDataToSend.append('description', formData.description);
-    formDataToSend.append('game', 'Brawl Stars'); // Always set to Brawl Stars
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("game", "Brawl Stars"); // Always set to Brawl Stars
 
     // Create and append details as JSON string
     const details = JSON.stringify({
       price: parseInt(formData.price),
-      type: formData.type
+      type: formData.type,
     });
-    formDataToSend.append('details', details);
+    formDataToSend.append("details", details);
 
     // Append image file if selected
     if (selectedFile) {
-      formDataToSend.append('image', selectedFile);
+      formDataToSend.append("image", selectedFile);
     }
 
     try {
-      const response = await axios.post('http://localhost:4000/api/game/items', formDataToSend, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('auth'))?.token}`
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/game/items`,
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))?.token}`,
+          },
         },
-      });
+      );
 
       if (response.status === 201) {
         fetchGameItems(); // Refresh the items list
@@ -96,29 +102,33 @@ const BrawlStars = () => {
 
     // Create FormData object for multipart/form-data
     const formDataToSend = new FormData();
-    formDataToSend.append('name', formData.name);
-    formDataToSend.append('description', formData.description);
-    formDataToSend.append('game', 'Brawl Stars'); // Always set to Brawl Stars
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("game", "Brawl Stars"); // Always set to Brawl Stars
 
     // Create and append details as JSON string
     const details = JSON.stringify({
       price: parseInt(formData.price),
-      type: formData.type
+      type: formData.type,
     });
-    formDataToSend.append('details', details);
+    formDataToSend.append("details", details);
 
     // Append image file if selected
     if (selectedFile) {
-      formDataToSend.append('image', selectedFile);
+      formDataToSend.append("image", selectedFile);
     }
 
     try {
-      const response = await axios.put(`http://localhost:4000/api/game/items/${formData.id}`, formDataToSend, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('auth'))?.token}`
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/game/items/${formData.id}`,
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))?.token}`,
+          },
         },
-      });
+      );
 
       if (response.status === 200) {
         fetchGameItems(); // Refresh the items list
@@ -132,12 +142,14 @@ const BrawlStars = () => {
 
   // Delete game item
   const handleDeleteGameItem = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this game item?')) {
+    if (!window.confirm("Are you sure you want to delete this game item?")) {
       return;
     }
 
     try {
-      const response = await axios.delete(`http://localhost:4000/api/game/items/${id}`);
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/game/items/${id}`,
+      );
 
       if (response.status === 200) {
         setGameItems(gameItems.filter((item) => item.id !== id));
@@ -165,7 +177,7 @@ const BrawlStars = () => {
       description: item.description,
       price: price,
       type: type,
-      game: "Brawl Stars"
+      game: "Brawl Stars",
     });
     setIsEditing(true);
     setSelectedFile(null);
@@ -179,7 +191,7 @@ const BrawlStars = () => {
       description: "",
       price: 0,
       type: "pass",
-      game: "Brawl Stars"
+      game: "Brawl Stars",
     });
     setSelectedFile(null);
   };
@@ -193,7 +205,7 @@ const BrawlStars = () => {
   // Get auth data from localStorage
   const getUsername = () => {
     try {
-      const authData = JSON.parse(localStorage.getItem('auth'));
+      const authData = JSON.parse(localStorage.getItem("auth"));
       return authData?.user?.username || "Admin";
     } catch (e) {
       return "Admin";
@@ -212,10 +224,7 @@ const BrawlStars = () => {
         <h1>Brawl Stars Item Management</h1>
         <div className="admin-user-info">
           <span>Welcome, {getUsername()}</span>
-          <button
-            className="logout-btn"
-            onClick={handleLogout}
-          >
+          <button className="logout-btn" onClick={handleLogout}>
             Logout
           </button>
         </div>
@@ -232,7 +241,9 @@ const BrawlStars = () => {
                 <a href="/admin/news">News Management</a>
               </li>
               <li>
-                <a href="/admin/BrawlStars" className="active">Brawl Stars Management</a>
+                <a href="/admin/BrawlStars" className="active">
+                  Brawl Stars Management
+                </a>
               </li>
               <li>
                 <a href="/admin/ClashOfClans">Clash Of Clans Management</a>
@@ -248,8 +259,10 @@ const BrawlStars = () => {
           {error && <div className="error-message">{error}</div>}
 
           <div className="game-item-form-container">
-            <h2>{isEditing ? 'Edit Game Item' : 'Add New Game Item'}</h2>
-            <form onSubmit={isEditing ? handleUpdateGameItem : handleCreateGameItem}>
+            <h2>{isEditing ? "Edit Game Item" : "Add New Game Item"}</h2>
+            <form
+              onSubmit={isEditing ? handleUpdateGameItem : handleCreateGameItem}
+            >
               <div className="form-group">
                 <label htmlFor="name">Name</label>
                 <input
@@ -319,9 +332,9 @@ const BrawlStars = () => {
                   <p>Current Image:</p>
                   <div className="image-preview">
                     <img
-                      src={`http://localhost:4000${formData.imageUrl}`}
+                      src={`${process.env.REACT_APP_API_URL}${formData.imageUrl}`}
                       alt="Game item"
-                      style={{ width: '100px' }}
+                      style={{ width: "100px" }}
                     />
                   </div>
                 </div>
@@ -329,10 +342,14 @@ const BrawlStars = () => {
 
               <div className="form-actions">
                 <button type="submit" className="btn-primary">
-                  {isEditing ? 'Update' : 'Create'}
+                  {isEditing ? "Update" : "Create"}
                 </button>
                 {isEditing && (
-                  <button type="button" className="btn-secondary" onClick={handleCancel}>
+                  <button
+                    type="button"
+                    className="btn-secondary"
+                    onClick={handleCancel}
+                  >
                     Cancel
                   </button>
                 )}
@@ -361,18 +378,18 @@ const BrawlStars = () => {
                   {gameItems.map((item) => (
                     <tr key={item.id}>
                       <td>{item.name}</td>
-                      <td>
-                        {item.GameItemDetail.type}
-                      </td>
-                      <td>
-                        {item.GameItemDetail.price}
-                      </td>
+                      <td>{item.GameItemDetail.type}</td>
+                      <td>{item.GameItemDetail.price}</td>
                       <td>
                         {item.imageUrl ? (
                           <img
-                            src={`http://localhost:4000${item.imageUrl}`}
+                            src={`${process.env.REACT_APP_API_URL}${item.imageUrl}`}
                             alt={item.name}
-                            style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              objectFit: "cover",
+                            }}
                           />
                         ) : (
                           <span>No image</span>
