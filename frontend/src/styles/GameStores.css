@@ -1,0 +1,77 @@
+@import url('./Font.css');
+
+.game-stores-container {
+  display: flex;
+  flex-direction: row;
+  gap: 60px;
+  justify-content: center;
+  padding-bottom: 10px;
+  flex-wrap: wrap;
+  background-color: #f9f9f9;
+  padding-top: 40px;
+  min-height: 300px;
+}
+
+.game-store-card {
+  position: relative;
+  width: 400px;
+  height: 220px;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.game-store-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-image-container {
+  height: 150px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  position: absolute;
+  z-index: 100;
+  padding-bottom: 10px;
+  border-radius: 20px;
+
+}
+
+.card-footer {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  position: absolute;
+  z-index: 0;
+
+}
+
+.store-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.arrow {
+  color: #1f2937;
+  font-size: 18px;
+}
+
+.store-name {
+  color: #1f2937;
+  font-weight: 500;
+  font-size: 14px;
+  font-family: 'SupercellText-Regular', system-ui, sans-serif;
+
+}

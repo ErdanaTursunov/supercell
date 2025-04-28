@@ -1,0 +1,74 @@
+.slider-container {
+  padding-top: 50px;
+  width: 100%;
+  overflow: hidden;
+  background-color: white;
+  padding-bottom: 100px;
+}
+
+.game-slider {
+  display: flex;
+  gap: 1.5rem;
+  will-change: transform;
+  animation: scrollAnimation 20s linear infinite;
+}
+
+.game-item {
+  flex: 0 0 calc((100% - 3rem) / 3);
+  max-width: calc((100% - 3rem) / 3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.game-icon-container {
+  flex-shrink: 0;
+}
+
+.game-icon {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 1rem;
+  object-fit: cover;
+}
+
+.download-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.store-badge {
+  width: 8rem;
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+.store-badge:hover {
+  transform: scale(1.05);
+}
+
+@keyframes scrollAnimation {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@media (max-width: 768px) {
+  .game-item {
+    flex: 0 0 calc(50% - 1.5rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .game-item {
+    flex: 0 0 calc(100% - 1.5rem);
+  }
+}

@@ -1,0 +1,363 @@
+/* Pass Containers Styles */
+.pass-containers {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Section Divider - Gradient Blend with Noise Texture */
+.section-divider {
+  position: relative;
+  width: 100%;
+  height: 70px;
+  overflow: hidden;
+  background: linear-gradient(to bottom, 
+              rgba(0, 0, 0, 0.9) 0%, 
+              rgba(0, 0, 0, 0.6) 100%);
+  position: relative;
+  margin: 20px 0;
+}
+
+.section-divider::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+/* Common Container Styles */
+.pass-container {
+  border-radius: 20px;
+  padding: 30px;
+  color: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Pro Pass Container */
+.pro-pass {
+  background: linear-gradient(135deg, #531dc7 0%, #8466d6 50%, #531dc7 100%);
+  border: 4px solid #9575f0;
+}
+
+/* Brawl Pass Plus Container */
+.brawl-pass-plus {
+  background: linear-gradient(135deg, #3fc6a9 0%, #77af7b 50%, #3fc6a9 100%);
+  border: 4px solid #77af7b;
+}
+
+/* Regular Brawl Pass Container */
+.brawl-pass {
+  background: linear-gradient(135deg, #f0862e 0%, #e3a16f 50%, #f0862e 100%);
+  border: 4px solid #f0862e;
+}
+
+/* Header styles */
+.pass-header {
+  text-align: center;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.pass-title {
+  font-family: "LilitaOne", sans-serif;
+  font-size: 42px;
+  margin: 0;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
+  letter-spacing: 1px;
+}
+
+.pass-subtitle {
+  font-size: 20px;
+  margin-top: 5px;
+  font-family: "InterTight-Bold", sans-serif;
+}
+
+/* Duration styles */
+.pass-duration {
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.duration-icon {
+  font-size: 24px;
+  margin-right: 15px;
+}
+
+/* Content title */
+.pass-content-title {
+  font-family: "InterTight-Bold", sans-serif;
+  font-size: 24px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* Features Section */
+.pass-features {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.feature-item {
+  display: flex;
+  gap: 20px;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  padding: 15px;
+  transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+  transform: translateY(-5px);
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+/* Стилизация для контейнера с изображениями */
+.feature-image {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  min-width: 100px; /* Фиксированная ширина для контейнера */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Слайдер изображений */
+.image-slider {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-slider img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Анимация для слайдера изображений */
+@keyframes imageSlide {
+  0%, 20% {
+    opacity: 1;
+  }
+  25%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Применяем анимацию к каждому изображению со сдвигом */
+.image-slider img:nth-child(1) {
+  animation: imageSlide 8s infinite;
+}
+
+.image-slider img:nth-child(2) {
+  animation: imageSlide 8s infinite 2s;
+}
+
+.image-slider img:nth-child(3) {
+  animation: imageSlide 8s infinite 4s;
+}
+
+.image-slider img:nth-child(4) {
+  animation: imageSlide 8s infinite 6s;
+}
+
+.placeholder-image {
+  width: 120px;
+  height: 120px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.feature-description {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.feature-description p {
+  margin: 5px 0;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.feature-description strong {
+  font-family: "InterTight-Bold", sans-serif;
+}
+
+.emoji {
+  font-size: 18px;
+  margin-right: 5px;
+}
+
+/* Button Styles */
+.buy-pass-button {
+  display: block;
+  width: 80%;
+  max-width: 400px;
+  margin: 20px auto 10px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  font-family: "LilitaOne", sans-serif;
+  font-size: 20px;
+  cursor: pointer;
+  text-align: center;
+  text-transform: uppercase;
+  border: 3px solid black;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  transition: all 0.3s ease;
+  position: relative;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+  transform: skewX(-4deg);
+}
+
+.buy-pass-button span {
+  display: inline-block;
+  transform: skewX(4deg);
+}
+
+.buy-pass-button:hover {
+  transform: skewX(-4deg) translateY(-3px);
+  box-shadow: 0 7px 0 rgba(0, 0, 0, 0.2);
+}
+
+.buy-pass-button:active {
+  transform: skewX(-4deg) translateY(0);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Button specific colors */
+.pro-pass-button {
+  background: linear-gradient(to bottom, #8466d6 0%, #531dc7 100%);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2), inset 0 -3px 0 #3a1591, inset 0 3px 0 rgba(199, 184, 255, 0.65);
+}
+
+.brawl-pass-plus-button {
+  background: linear-gradient(to bottom, #77af7b 0%, #3fc6a9 100%);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2), inset 0 -3px 0 #2e5b42, inset 0 3px 0 rgba(199, 219, 82, 0.65);
+}
+
+.brawl-pass-button {
+  background: linear-gradient(to bottom, #e3a16f 0%, #f0862e 100%);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2), inset 0 -3px 0 #c66518, inset 0 3px 0 rgba(255, 221, 151, 0.65);
+}
+
+/* Conclusion Section */
+.pass-conclusion {
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 10px;
+  color: white;
+}
+
+.pass-conclusion h3 {
+  font-family: "InterTight-Bold", sans-serif;
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 22px;
+}
+
+.pass-conclusion ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.pass-conclusion li {
+  padding: 10px 5px;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pass-conclusion li:last-child {
+  border-bottom: none;
+}
+
+.pass-conclusion strong {
+  font-family: "InterTight-Bold", sans-serif;
+  color: #ffcc00;
+}
+
+/* Animation for container appearance */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .pass-container {
+    padding: 20px;
+  }
+  
+  .pass-title {
+    font-size: 32px;
+  }
+  
+  .feature-item {
+    flex-direction: column;
+  }
+  
+  .feature-image {
+    flex: 0 0 auto;
+    margin-bottom: 15px;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pass-title {
+    font-size: 28px;
+  }
+  
+  .pass-subtitle {
+    font-size: 16px;
+  }
+  
+  .buy-pass-button {
+    width: 100%;
+    font-size: 18px;
+  }
+}

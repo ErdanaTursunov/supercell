@@ -1,0 +1,221 @@
+.brawl-stars-container-news {
+    width: 100%;
+    background-color: #f6f6f6;
+    font-family: 'Roboto', 'Arial', sans-serif;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.brawl-stars-wrapper-news {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.brawl-stars-title-news {
+    font-family: 'SupercellText-Regular', system-ui, sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #00aeff;
+    letter-spacing: 1px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 8px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.brawl-stars-title-news:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: #00aeff;
+}
+
+.brawl-stars-cards-container-news {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px 5px 20px;
+    scrollbar-width: thin;
+    scrollbar-color: #bbbbbb transparent;
+}
+
+.brawl-stars-cards-container-news::-webkit-scrollbar {
+    height: 6px;
+}
+
+.brawl-stars-cards-container-news::-webkit-scrollbar-thumb {
+    background-color: #bbbbbb;
+    border-radius: 20px;
+}
+
+.brawl-stars-cards-container-news::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.brawl-stars-card-news {
+    flex: 0 0 280px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 5px 15px var(--bs-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+}
+
+.brawl-stars-card-news:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--bs-shadow);
+}
+
+.brawl-stars-card-news:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+}
+
+.theme-red-news:before {
+    background-color: var(--bs-red);
+}
+
+.theme-blue-news:before {
+    background-color: var(--bs-blue);
+}
+
+.theme-yellow-news:before {
+    background-color: var(--bs-yellow);
+}
+
+.theme-purple-news:before {
+    background-color: var(--bs-purple);
+}
+
+.card-content-news {
+    padding: 15px;
+}
+
+.card-date-news {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.card-image-container-news {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f9f9f9;
+}
+
+.card-image-news {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.card-info-news {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title-news {
+    font-size: 18px;
+    font-family: 'SupercellText-Regular', system-ui, sans-serif;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: var(#666);
+}
+
+.card-subtitle-news {
+    font-size: 14px;
+    color: #666;
+    font-family: 'SupercellText-Regular', system-ui, sans-serif;
+    margin-bottom: 10px;
+}
+
+.card-character-news {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.play-button-news {
+    background-color: #00aeff;
+    color: white;
+    border: none;
+    padding: 10px 0;
+    width: 100%;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: auto;
+}
+
+.play-button-news:hover {
+    background-color: #0099e6;
+}
+
+.all-news-button-container-news {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.all-news-button-news {
+    background-color: transparent;
+    color: #00aeff;
+    border: 2px solid #00aeff;
+    padding: 12px 22px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.all-news-button-news:hover {
+    background-color: #00aeff;
+    color: white;
+}
+
+.arrow-icon-news {
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+}
+
+/* For theme-specific customizations */
+.theme-red-news .card-title-news {
+    color: var(--bs-red);
+}
+
+.theme-blue-news .card-title-news {
+    color: var(--bs-blue);
+}
+
+.theme-yellow-news .card-title-news {
+    color: var(--bs-yellow);
+}
+
+.theme-purple-news .card-title-news {
+    color: var(--bs-purple);
+}
